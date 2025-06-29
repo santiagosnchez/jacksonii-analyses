@@ -5,6 +5,8 @@ services:
     volumes:
       - ${PWD}:/workspace
       - ${DATA_PATH}:/workspace/data
+    environment:
+      - PYTHONPATH=/opt/conda/lib/python3.12/site-packages
     working_dir: /workspace
     user: "${UID:-1000}:${GID:-1000}"
     command: tail -f /dev/null
