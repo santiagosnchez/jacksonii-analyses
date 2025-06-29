@@ -2,9 +2,42 @@
 
 This repo includes scripts, workflows, and environments for analyzing population genomic data in *Amanita jacksonii* species complex --an ectomycorrhizal basidiomycete in the genus *Agaricales*.
 
-## Load the Python toolkit environment
+## Set up a *data* path
 
-Use [Poetry](https://python-poetry.org/) to create and load the Python environment for all the code to properly work.
+You will need to set up a data path that points to your input data such as VCF files (and other data).
+
+Simply export a variable called `DATA_PATH` **before** initializing your docker compose session. For example:
+
+```bash
+export DATA_PATH:${HOME}/Desktop/data
+```
+
+Docker compose will pick up this variable and symlink it to your VS code session.
+
+## Devcontainer workspace (preferred)
+
+Run your workflows in an isolated devcontainer environment. This is the preferred method for working through the codebase.
+
+If you have Docker up and running, simply build an image with the `Dockerfile` in the repo and start a docker-compose session.
+
+```bash
+docker build -t jacksonii_analyses . && docker compose up -d
+```
+
+After docker compose finishes loading go to VS Code and open a workspace in devcontainer mode. Use your keyboard to open a command search prompt: <button>Ctrl</button>+<button>Shift</button>+<button>P</button> and look for:
+
+```
+> Dev Containers: Attach to Running Container...
+```
+
+Then, select the container you just launched (`jacksonii_analyses`).
+
+VS Code will open a new window. If it asks for a directory path select `/workspace`.
+
+
+## Local Python toolkit environment
+
+You can also use [Poetry](https://python-poetry.org/) to create and load the Python environment for all the code to properly work.
 
 You will need to use **Python3.12** or higher. If you don't have poetry already installed, use `pip` to install it.
 
