@@ -1,0 +1,10 @@
+services:
+  jacksonii_base:
+    image: jacksonii_analyses:latest
+    container_name: jacksonii_analyses
+    volumes:
+      - ${PWD}:/workspace
+      - ${DATA_PATH}:/workspace/data
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    command: tail -f /dev/null
