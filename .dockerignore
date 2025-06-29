@@ -1,0 +1,12 @@
+data/
+notebooks/
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+.Python
+db.sqlite3
+.env
+*.env
+*.DS_Store
+poetry.lock
