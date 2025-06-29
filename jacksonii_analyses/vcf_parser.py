@@ -3,6 +3,21 @@ import pandas as pd
 import numpy as np
 
 
+IUPAC_CODES = {
+    frozenset(["A", "G"]): "R",
+    frozenset(["C", "T"]): "Y",
+    frozenset(["G", "C"]): "S",
+    frozenset(["A", "T"]): "W",
+    frozenset(["G", "T"]): "K",
+    frozenset(["A", "C"]): "M",
+    frozenset(["A"]): "A",
+    frozenset(["C"]): "C",
+    frozenset(["G"]): "G",
+    frozenset(["T"]): "T",
+    frozenset(["."]): "N",
+}
+
+
 def loci_from_callset(callset: dict) -> np.ndarray:
     chroms = callset["variants/CHROM"]
     positions = callset["variants/POS"]
@@ -29,3 +44,47 @@ def vcf_to_geno_df(vcf_path) -> pd.DataFrame:
     geno = gt.to_n_alt().T
 
     return pd.DataFrame(geno, index=samples, columns=loci)
+
+
+def vcf_to_snp_fasta(vcf_path: str, output: str) -> None:
+    callset = allel.read_vcf(vcf_path)
+
+    ref = callset["variants/REF"]
+    alt = callset["variants/ALT"]
+
+    is_snp = np.array(
+        [
+            len(r) == 1 and len(a[0]) == 1 if len(a) > 0 else False
+            for r, a in zip(ref, alt)
+        ]
+    )
+    snp_indices = np.where(is_snp)[0]
+
+    ref = ref[snp_indices]
+    alt = alt[snp_indices]
+
+    gt = allel.GenotypeArray(callset["calldata/GT"])
+    gt_snp = gt[snp_indices, :, :]
+
+    samples = callset.get("samples", [f"sample{i+1}" for i in range(gt.shape[0])])
+
+    seqs = []
+    for i, sample in enumerate(samples):
+        seq = []
+        for j in range(gt_snp.shape[0]):
+            alleles = []
+            for ploid in gt_snp[j, i]:
+                if ploid == 0:
+                    alleles.append(ref[j])
+                elif ploid == 1:
+                    alleles.append(alt[j][0])
+                else:
+                    alleles.append(".")
+            unique_alleles = set(alleles)
+            code = IUPAC_CODES.get(frozenset(unique_alleles), "N")
+            seq.append(code)
+        seqs.append((sample, "".join(seq)))
+
+    with open(output, "w") as fasta:
+        for sample, seq in seqs:
+            fasta.write(f">{sample}\n{seq}\n")
