@@ -1,1 +1,7 @@
 data
+poetry.lock
+./*.png
+*.pyc
+__pycache__/
+*.ipynb_checkpoints
+*.DS_Store
