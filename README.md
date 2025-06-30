@@ -34,6 +34,11 @@ Then, select the container you just launched (`jacksonii_analyses`).
 
 VS Code will open a new window. If it asks for a directory path select `/workspace`.
 
+### Removing your devcontainer
+
+```bash
+docker compose down && docker image rm jacksonii_analyses
+```
 
 ## Local Python toolkit environment
 
