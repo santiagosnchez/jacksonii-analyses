@@ -68,10 +68,31 @@ def vcf_to_snp_fasta(vcf_path: str, output: str) -> None:
 
     samples = callset.get("samples", [f"sample{i+1}" for i in range(gt.shape[0])])
 
+    filtered_indices = []
+    for j in range(gt_snp.shape[0]):
+        unambig_bases = set()
+        for i in range(len(samples)):
+            alleles = []
+            for ploid in gt_snp[j, i]:
+                if ploid == 0:
+                    alleles.append(ref[j])
+                elif ploid == 1:
+                    alleles.append(alt[j][0])
+                else:
+                    alleles.append(".")
+            # Only consider unambiguous bases for this sample
+            sample_unambig = {a for a in alleles if a in "ACGT"}
+            if sample_unambig:
+                unambig_bases.update(sample_unambig)
+        # Keep site if at least two different unambiguous bases are present
+        if len(unambig_bases) >= 2:
+            filtered_indices.append(j)
+
+    # Now build sequences only for filtered sites
     seqs = []
     for i, sample in enumerate(samples):
         seq = []
-        for j in range(gt_snp.shape[0]):
+        for j in filtered_indices:
             alleles = []
             for ploid in gt_snp[j, i]:
                 if ploid == 0:
