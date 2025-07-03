@@ -46,6 +46,21 @@ def vcf_to_geno_df(vcf_path) -> pd.DataFrame:
     return pd.DataFrame(geno, index=samples, columns=loci)
 
 
+def vcf_to_chr_pos_df(vcf_path: str) -> pd.DataFrame:
+    callset = allel.read_vcf(vcf_path)
+    chroms = callset["variants/CHROM"]
+    positions = callset["variants/POS"]
+
+    loci = loci_from_callset(callset)
+
+    df = pd.DataFrame({
+        "chrom": chroms,
+        "pos": positions,
+        "locus": loci,
+    })
+
+    return df
+
 def vcf_to_snp_fasta(vcf_path: str, output: str) -> None:
     callset = allel.read_vcf(vcf_path)
 
