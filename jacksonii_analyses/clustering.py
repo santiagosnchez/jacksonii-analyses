@@ -8,7 +8,7 @@ from scipy.cluster.hierarchy import fclusterdata
 def read_populations(pop_file: str) -> pd.DataFrame:
     pops = pd.read_csv(pop_file, sep="\t", header=None, names=["sample", "populations"])
     pops["populations_clean"] = pops["populations"].apply(
-        lambda x: re.sub(" sp", " sp ", re.sub("Amanita", "A. ", x))
+        lambda x: re.sub(" sp", " sp. ", re.sub("Amanita", "A. ", x))
     )
     pops = pops.set_index("sample")
     return pops
