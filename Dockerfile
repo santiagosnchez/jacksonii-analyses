@@ -16,7 +16,8 @@ RUN apt-get update && \
         libspatialindex-dev \
         python3-pyproj \
         python3-shapely \
-        python3-rtree
+        python3-rtree \
+        mafft
 RUN poetry config virtualenvs.create false
 RUN poetry install
 RUN python -m ipykernel install --user --name jacksonii_analyses --display-name "Python (jacksonii)"
