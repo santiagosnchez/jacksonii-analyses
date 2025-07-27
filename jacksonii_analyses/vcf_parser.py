@@ -53,15 +53,18 @@ def vcf_to_chr_pos_df(vcf_path: str) -> pd.DataFrame:
 
     loci = loci_from_callset(callset)
 
-    df = pd.DataFrame({
-        "chrom": chroms,
-        "pos": positions,
-        "locus": loci,
-    })
+    df = pd.DataFrame(
+        {
+            "chrom": chroms,
+            "pos": positions,
+            "locus": loci,
+        }
+    )
 
     return df
 
-def vcf_to_snp_fasta(vcf_path: str, output: str) -> None:
+
+def vcf_to_snp_fasta(vcf_path: str, output: str, drop_samples: list = None) -> None:
     callset = allel.read_vcf(vcf_path)
 
     ref = callset["variants/REF"]
@@ -81,7 +84,14 @@ def vcf_to_snp_fasta(vcf_path: str, output: str) -> None:
     gt = allel.GenotypeArray(callset["calldata/GT"])
     gt_snp = gt[snp_indices, :, :]
 
-    samples = callset.get("samples", [f"sample{i+1}" for i in range(gt.shape[0])])
+    vcf_samples = list(callset.get("samples", []))
+    if drop_samples is not None:
+        sample_indices = [i for i, s in enumerate(vcf_samples) if s not in drop_samples]
+    else:
+        sample_indices = range(gt_snp.shape[1])
+    gt_snp = gt_snp[:, sample_indices, :]
+
+    samples = [vcf_samples[i] for i in sample_indices]
 
     filtered_indices = []
     for j in range(gt_snp.shape[0]):
