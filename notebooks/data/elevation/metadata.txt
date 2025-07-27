@@ -1,0 +1,17 @@
+
+Dataset Name
+Global Multi-Resolution Topography (GMRT) Data Synthesis(GMRT)
+
+Data Access Acknowledgement
+This material is based on [data, processing] services provided by the OpenTopography Facility with support from the National Science Foundation under NSF Award Numbers 2410799, 2410800 and 2410801
+
+Dataset Acknowledgement
+Ryan, W.B.F., S.M. Carbotte, J.O. Coplan, S. O'Hara, A. Melkonian, R. Arko, R.A. Weissel, V. Ferrini, A. Goodwillie, F. Nitsche, J. Bonczkowski, and R. Zemsky (2009), Global Multi-Resolution Topography synthesis, Geochem. Geophys. Geosyst., 10, Q03014, https://doi.org/10.1029/2008GC002332
+
+Dataset Citation
+Global Multi-Resolution Topography (GMRT) Data Synthesis. Distributed by OpenTopography. https://doi.org/10.5069/G9BG2M6R . Accessed 2025-07-06
+
+Horizontal Coordinates
+WGS84 [EPSG: 4326]
+Vertical Coordinates
+WGS84 Ellipsoid [EPSG: 4979]
