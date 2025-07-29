@@ -1,4 +1,4 @@
-FROM community.wave.seqera.io/library/iqtree_python_pip_poetry:0fcc8b0a840d4495
+FROM community.wave.seqera.io/library/iqtree_newick_utils_pip_poetry:a792bac6191623f0
 COPY . /workspace
 WORKDIR /workspace
 RUN apt-get update && \
@@ -18,6 +18,8 @@ RUN apt-get update && \
         python3-pyproj \
         python3-shapely \
         python3-rtree \
+        libbz2-dev \
+        liblzma-dev \
         bcftools \
         mafft 
 RUN wget "https://dalexander.github.io/admixture/binaries/admixture_linux-1.3.0.tar.gz" && \
