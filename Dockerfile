@@ -1,8 +1,9 @@
-FROM community.wave.seqera.io/library/iqtree_newick_utils_pip_poetry:a792bac6191623f0
+FROM community.wave.seqera.io/library/aster_iqtree_newick_utils_python_pruned:5a3b563b7c7d0390
 COPY . /workspace
 WORKDIR /workspace
 RUN apt-get update && \
     apt-get install -y \
+        openjdk-17-jre-headless \
         git \
         wget \
         python3-pyqt5 \
@@ -10,7 +11,7 @@ RUN apt-get update && \
         python3-pil.imagetk \
         libglib2.0-0 \
         libsm6 \
-        libxrender1 \ 
+        libxrender1 \
         libxext6 \
         gdal-bin \
         libgdal-dev \
@@ -29,6 +30,14 @@ RUN wget "https://s3.amazonaws.com/plink1-assets/plink_linux_x86_64_20250615.zip
     unzip -o plink_linux_x86_64_20250615.zip -d /tmp/plink && \
     mv /tmp/plink/plink /usr/local/bin/ && \
     rm -rf /tmp/plink plink_linux_x86_64_20250615.zip
+RUN git clone https://tfujisawa@bitbucket.org/tfujisawa/tr2-delimitation-python3
+RUN mkdir -p /tr2-delimitation-python3/bin && \
+    wget -O /tr2-delimitation-python3/bin/Triplec.jar "http://www.cibiv.at/software/triplec/Triplec.jar"
+RUN git clone https://github.com/maryamrabiee/SODA.git
+RUN wget "https://github.com/bpp/bpp/releases/download/v4.8.4/bpp-4.8.4-linux-x86_64.tar.gz" && \
+    tar zxf bpp-4.8.4-linux-x86_64.tar.gz && \
+    cp /bpp-4.8.4-linux-x86_64/bin/bpp /usr/local/bin && \
+    rm tar zxf bpp-4.8.4-linux-x86_64.tar.gz
 ENV PATH=${PATH}:/usr/local/bin
 RUN poetry config virtualenvs.create false
 RUN poetry install
