@@ -1,6 +1,4 @@
-FROM community.wave.seqera.io/library/aster_iqtree_newick_utils_python_pruned:5a3b563b7c7d0390
-COPY . /workspace
-WORKDIR /workspace
+FROM community.wave.seqera.io/library/aster_iqtree_newick_utils_python_pruned:a6eb1a25aace4f1d
 RUN apt-get update && \
     apt-get install -y \
         openjdk-17-jre-headless \
@@ -35,10 +33,11 @@ RUN mkdir -p /tr2-delimitation-python3/bin && \
     wget -O /tr2-delimitation-python3/bin/Triplec.jar "http://www.cibiv.at/software/triplec/Triplec.jar"
 RUN git clone https://github.com/maryamrabiee/SODA.git
 RUN wget "https://github.com/bpp/bpp/releases/download/v4.8.4/bpp-4.8.4-linux-x86_64.tar.gz" && \
-    tar zxf bpp-4.8.4-linux-x86_64.tar.gz && \
-    cp /bpp-4.8.4-linux-x86_64/bin/bpp /usr/local/bin && \
-    rm tar zxf bpp-4.8.4-linux-x86_64.tar.gz
+    tar zxf bpp-4.8.4-linux-x86_64.tar.gz -C /usr/local/bin bpp-4.8.4-linux-x86_64/bin/bpp --strip-components=2 && \
+    rm -rf bpp-4.8.4-linux-x86_64.tar.gz
 ENV PATH=${PATH}:/usr/local/bin
+COPY . /workspace
+WORKDIR /workspace
 RUN poetry config virtualenvs.create false
 RUN poetry install
-RUN python -m ipykernel install --user --name jacksonii_analyses --display-name "Python (jacksonii)"
+#RUN python -m ipykernel install --user --name jacksonii_analyses --display-name "Python (jacksonii)"
