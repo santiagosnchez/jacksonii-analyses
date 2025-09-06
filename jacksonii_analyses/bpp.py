@@ -43,7 +43,7 @@ def get_a10_ctl(
     speciesdelimitation = 1 1 2 1   * species delimitation rjMCMC algorithm finetune (a m)
     speciestree = 0                 * species tree NNI/SPR
 
-    speciesmodelprior = 3           * 0: uniform LH; 1:uniform rooted trees; 2: uniformSLH; 3: uniformSRooted
+    speciesmodelprior = 1           * 0: uniform LH; 1:uniform rooted trees; 2: uniformSLH; 3: uniformSRooted
 
     species&tree = {initial_species}
                    {individuals_in_species}
