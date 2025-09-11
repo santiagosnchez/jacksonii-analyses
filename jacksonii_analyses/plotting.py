@@ -9,6 +9,17 @@ groups = [
     "A. sp. F11",
 ]
 
+map_population_names = {
+    "Amanitajacksonii": "A. jacksonii",
+    "AmanitaspT31": "A. sp. T31",
+    "Amanitaspjack6": "A. sp. jack6",
+    "Amanitaspjack5": "A. sp. jack5",
+    "Amanitaspjack3": "A. sp. jack3",
+    "Amanitaspjack2": "A. sp. jack2",
+    "Amanitaspjack1": "A. sp. jack1",
+    "AmanitaspF11": "A. sp. F11",
+}
+
 palette = [
     "#999999",  # Gray
     "#e69f00",  # Orange
