@@ -25,8 +25,18 @@ def calculate_pca(
     )
     if pops is not None:
         pcs_df["populations"] = pops.loc[pcs_df.index, "populations_clean"].values
+    variance_explained_series = variance_explained(pca)
+    pcs_df.attrs["variance_explained"] = variance_explained_series
 
     return pcs_df
+
+
+def variance_explained(pca: PCA) -> pd.Series:
+    var_exp = pd.Series(
+        pca.explained_variance_ratio_,
+        index=[f"PC{i+1}" for i in range(len(pca.explained_variance_ratio_))],
+    )
+    return var_exp
 
 
 def cluster_variants_by_distance(
