@@ -1,6 +1,6 @@
 # *Amanita jacksonii* variant analysis
 
-This repo includes scripts, workflows, and environments for analyzing population genomic data in *Amanita jacksonii* species complex --an ectomycorrhizal basidiomycete in the genus *Agaricales*.
+This repo includes scripts, workflows, and environments for analyzing population genomic data in *Amanita jacksonii* species complex --an ectomycorrhizal basidiomycete in the order *Agaricales*.
 
 ## Set up a *data* path
 
